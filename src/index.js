@@ -10,7 +10,18 @@ var request = require('sync-request');
 
 const schema = buildSchema(`
     type Query {
-        cep(numero: String!): String
+        cep(numero: String!): ViaCep
+    }
+    type ViaCep{
+        cep: String
+        logradouro: String
+        complemento: String
+        bairro: String
+        localidade: String
+        uf: String
+        unidade: String
+        ibge: String
+        gia: String
     }
 `)
 
@@ -19,7 +30,7 @@ let getCep = (args) => {
 
     var res = request('GET', 'https://viacep.com.br/ws/'+ numerocep +'/json/');
 
-    return res.getBody('utf8');
+    return JSON.parse(res.getBody('utf8'));
 }
 
 const root = {
